@@ -78,7 +78,6 @@ public class Program
             services.AddSwaggerGen();
 
             builder.Host.UseDiginsightServiceProvider(true);
-
             app = builder.Build();
 
             // Configure the HTTP request pipeline.
