@@ -30,7 +30,7 @@ internal sealed class Executor : IDisposable
     {
         this.logger = logger;
 
-        using Activity? activity = Program.ActivitySource.StartMethodActivity(logger);
+        using Activity? activity = Observability.ActivitySource.StartMethodActivity(logger);
 
         //cosmosClient = new CosmosClient(connectionString);
         //container = cosmosClient.GetContainer("elcommon", "userplant");
@@ -60,7 +60,7 @@ internal sealed class Executor : IDisposable
             string accountEndpoint = connectionString.Split(';')
                 .Select(static x => x.Split('=', 2)).First(static x => x[0].Equals("AccountEndpoint", StringComparison.OrdinalIgnoreCase))[1];
 
-            using Activity? activity = Program.ActivitySource.StartMethodActivity(logger, () => new { accountEndpoint, query, file, top, skip });
+            using Activity? activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { accountEndpoint, query, file, top, skip });
 
             var cosmosClient = new CosmosClient(connectionString);
             var container = cosmosClient.GetContainer(database, collection ); 
@@ -84,6 +84,8 @@ internal sealed class Executor : IDisposable
                 while (iterator.HasMoreResults)
                 {
                     var response = await iterator.ReadNextAsync();
+                    if (!response.IsSuccessStatusCode) { throw new Exception(response.ErrorMessage); }
+                    
                     response.Content.Position = 0;
                     var content = await new System.IO.StreamReader(response.Content).ReadToEndAsync();
                     logger.LogDebug("content: {content}", content);

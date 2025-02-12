@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
-namespace SampleCoconaApp;
+namespace SampleConsoleApp;
 public static partial class ObservabilityExtensions
 {
     static Type T = typeof(ObservabilityExtensions);

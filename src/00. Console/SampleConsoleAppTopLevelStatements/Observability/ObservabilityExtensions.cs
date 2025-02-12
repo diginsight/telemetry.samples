@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
-namespace SampleCoconaApp;
+namespace SampleConsoleAppTopLevelStatementsTopLevelStatements;
 public static partial class ObservabilityExtensions
 {
     static Type T = typeof(ObservabilityExtensions);
@@ -49,7 +49,7 @@ public static partial class ObservabilityExtensions
                              {
                                        new RollingFileAppender()
                                        {
-                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Assembly.GetName().Name!),
                                            AppendToFile = true,
                                            StaticLogFileName = false,
                                            RollingStyle = RollingFileAppender.RollingMode.Composite,

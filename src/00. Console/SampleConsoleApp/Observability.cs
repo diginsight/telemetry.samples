@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace SampleCoconaApp;
+namespace SampleConsoleApp;
 
 internal static class Observability
 {

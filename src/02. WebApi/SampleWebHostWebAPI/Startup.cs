@@ -82,7 +82,6 @@ public class Startup
                          }
                      }
                  );
-
         services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
         observabilityManager.AttachTo(services);
 
