@@ -31,7 +31,7 @@ internal class Program
         using CoconaApp app = appBuilder.Build();
 
         Executor executor = app.Services.GetRequiredService<Executor>();
-        app.AddCommand(executor.ExecuteAsync);
+        app.AddCommand("query", executor.QueryAsync);
         await app.RunAsync();
     }
 }

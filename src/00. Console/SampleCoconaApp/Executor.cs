@@ -32,11 +32,6 @@ internal sealed class Executor : IDisposable
 
         using Activity? activity = Observability.ActivitySource.StartMethodActivity(logger);
 
-        //cosmosClient = new CosmosClient(connectionString);
-        //container = cosmosClient.GetContainer("elcommon", "userplant");
-        //this.file = file;
-        //this.whatIf = whatIf;
-        //this.top = top;
     }
 
     public void Dispose()
@@ -44,7 +39,7 @@ internal sealed class Executor : IDisposable
         cosmosClient?.Dispose();
     }
 
-    public async Task ExecuteAsync(
+    public async Task QueryAsync(
         [FromService] CoconaAppContext appContext,
         [Option('c')] string connectionString,
         [Option('q')] string query,
@@ -57,26 +52,27 @@ internal sealed class Executor : IDisposable
     {
         try
         {
-            string accountEndpoint = connectionString.Split(';')
-                .Select(static x => x.Split('=', 2)).First(static x => x[0].Equals("AccountEndpoint", StringComparison.OrdinalIgnoreCase))[1];
+            using Activity? activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { query, file, top, skip });
 
-            using Activity? activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { accountEndpoint, query, file, top, skip });
+            string accountEndpoint = connectionString.Split(';').Select(static x => x.Split('=', 2)).First(static x => x[0].Equals("AccountEndpoint", StringComparison.OrdinalIgnoreCase))[1];
+            logger.LogDebug("accountEndpoint: {accountEndpoint}", accountEndpoint);
 
-            var cosmosClient = new CosmosClient(connectionString);
-            var container = cosmosClient.GetContainer(database, collection ); 
+            var cosmosClient = new CosmosClient(connectionString); logger.LogDebug("cosmosClient = new CosmosClient(connectionString);");
+            var container = cosmosClient.GetContainer(database, collection); logger.LogDebug($"container = cosmosClient.GetContainer({database}, {collection});");
 
             var topClause = top > 0 ? $" OFFSET {skip} LIMIT {top}" : string.Empty;
             string modifiedQuery = $"{query}{topClause}";
             logger.LogDebug("modifiedQuery: {modifiedQuery}", modifiedQuery);
 
-            var requestOptions = new QueryRequestOptions { MaxItemCount = top, QueryTextMode = QueryTextMode.None }; 
+            var requestOptions = new QueryRequestOptions { MaxItemCount = top, QueryTextMode = QueryTextMode.None };
             var iterator = container.GetItemQueryStreamIterator(modifiedQuery, requestOptions: requestOptions);
+
+            //container.UpsertItemStreamAsync( )
 
             StreamWriter? streamWriter = null;
             if (file is not null)
             {
-                logger.LogInformation("Writing results to {File}", file);
-                streamWriter = new StreamWriter(file);
+                streamWriter = new StreamWriter(file); logger.LogInformation($"streamWriter = new StreamWriter({file});");
             }
 
             using (streamWriter)
@@ -85,7 +81,7 @@ internal sealed class Executor : IDisposable
                 {
                     var response = await iterator.ReadNextAsync();
                     if (!response.IsSuccessStatusCode) { throw new Exception(response.ErrorMessage); }
-                    
+
                     response.Content.Position = 0;
                     var content = await new System.IO.StreamReader(response.Content).ReadToEndAsync();
                     logger.LogDebug("content: {content}", content);
@@ -95,10 +91,10 @@ internal sealed class Executor : IDisposable
                     }
                 }
             }
+
         }
-        catch (Exception exception)
-        {
-            logger.LogError(exception, "Uncaught exception");
-        }
+        catch (Exception ex) { logger.LogError(ex, $"'{ex.GetType().Name}': {ex.Message}", ex); }
     }
+
+
 }

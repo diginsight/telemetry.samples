@@ -4,7 +4,6 @@ using Diginsight.Diagnostics.Log4Net;
 using log4net.Appender;
 using Microsoft.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SampleWebHostWebAPI;
 
 namespace SampleWebHostWebAPI;
 
