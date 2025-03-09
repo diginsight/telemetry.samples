@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebHostWebAPI", "02. 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebAPIDocker", "02. WebApi\SampleWebAPIDocker\SampleWebAPIDocker.csproj", "{30C9BE50-423B-4E7B-B2A2-5E7FF30CF8BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWpfAppWithAppinsight", "01. Wpf\SampleWpfAppWithAppinsight\SampleWpfAppWithAppinsight.csproj", "{F02775CC-9EF9-4345-87C5-49E5F1E877A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{30C9BE50-423B-4E7B-B2A2-5E7FF30CF8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30C9BE50-423B-4E7B-B2A2-5E7FF30CF8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30C9BE50-423B-4E7B-B2A2-5E7FF30CF8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02775CC-9EF9-4345-87C5-49E5F1E877A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02775CC-9EF9-4345-87C5-49E5F1E877A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02775CC-9EF9-4345-87C5-49E5F1E877A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02775CC-9EF9-4345-87C5-49E5F1E877A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,5 +117,6 @@ Global
 		{D0D97373-A2BD-40DE-B8D0-2ECC0F3498F0} = {915C7BE6-48DB-43B3-AFAE-FDE42E456384}
 		{96D82631-8DE9-4135-8EB3-82AD2EAC7985} = {CE3838CD-C40E-4910-ACD7-E6882D425392}
 		{30C9BE50-423B-4E7B-B2A2-5E7FF30CF8BF} = {CE3838CD-C40E-4910-ACD7-E6882D425392}
+		{F02775CC-9EF9-4345-87C5-49E5F1E877A9} = {42B8DC5F-D930-4A8D-864D-4540058CFB32}
 	EndGlobalSection
 EndGlobal
