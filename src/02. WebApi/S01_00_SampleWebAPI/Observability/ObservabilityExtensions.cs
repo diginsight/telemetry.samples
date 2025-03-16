@@ -1,4 +1,5 @@
 ﻿using Diginsight;
+using Diginsight.AspNetCore;
 using Diginsight.Diagnostics;
 using Diginsight.Diagnostics.Log4Net;
 using Diginsight.Options;
@@ -115,6 +116,8 @@ public static partial class ObservabilityExtensions
         services
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();
+
+        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
 
         return services;
     }
