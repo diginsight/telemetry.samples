@@ -1,0 +1,6 @@
+@S10_00_AspnetWebApi480_HostAddress = http://localhost:5201
+
+GET {{S10_00_AspnetWebApi480_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
