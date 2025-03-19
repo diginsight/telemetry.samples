@@ -22,10 +22,13 @@ public class WeatherForecastController : ControllerBase
     {
         using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
+        var randomTemperature = Random.Shared.Next(-20, 55);
+        logger.LogDebug("randomTemperature: {randomTemperature}", randomTemperature);
+
         var res = Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
+            TemperatureC = randomTemperature,
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         }).ToArray();
 
