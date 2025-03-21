@@ -8,7 +8,7 @@ using log4net.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace SampleWebAPI;
+namespace S01_00_SampleWebAPI;
 
 using Options = Microsoft.Extensions.Options.Options;
 
@@ -29,7 +29,7 @@ public static partial class ObservabilityExtensions
         bool isLocal = hostEnvironment.IsDevelopment(); 
         string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!; 
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>(); 
+        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
 
         services.AddLogging(
             loggingBuilder =>
@@ -112,12 +112,14 @@ public static partial class ObservabilityExtensions
             );
         }
 
+        services.AddHttpContextAccessor();
+        DefaultDynamicConfigurationLoader.AddToServices(services);
+        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+
         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Activities")));
         services
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();
-
-        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
 
         return services;
     }

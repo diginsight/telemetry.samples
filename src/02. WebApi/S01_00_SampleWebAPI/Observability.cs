@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace SampleWebAPI;
+namespace S01_00_SampleWebAPI;
 
 internal static class Observability
 {

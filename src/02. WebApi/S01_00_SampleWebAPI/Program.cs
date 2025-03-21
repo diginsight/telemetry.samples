@@ -3,7 +3,8 @@ using Diginsight;
 using Diginsight.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace SampleWebAPI;
+namespace S01_00_SampleWebAPI;
+
 
 public class Program
 {
@@ -18,6 +19,10 @@ public class Program
         services.AddObservability(configuration, environment);
 
         services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+
+        services.ConfigureClassAware<ConcurrencyOptions>(configuration.GetSection("AppSettings"))
+            .DynamicallyConfigureClassAware<ConcurrencyOptions>()
+            .VolatilelyConfigureClassAware<ConcurrencyOptions>();
 
         services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
