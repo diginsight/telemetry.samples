@@ -23,9 +23,6 @@ public static partial class ObservabilityExtensions
         bool configureDefaults = true
     )
     {
-        const string diginsightConfKey = "Diginsight";
-        const string observabilityConfKey = "Observability";
-
         bool isLocal = hostEnvironment.IsDevelopment(); 
         string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!; 
 
@@ -36,7 +33,7 @@ public static partial class ObservabilityExtensions
             {
                 loggingBuilder.ClearProviders(); 
 
-                var consoleEnabled = configuration.GetValue(ConfigurationPath.Combine(observabilityConfKey, "ConsoleEnabled"), true); 
+                var consoleEnabled = configuration.GetValue(ConfigurationPath.Combine("Observability", "ConsoleEnabled"), true); 
                 if (consoleEnabled)
                 {
                     loggingBuilder.AddDiginsightConsole(
@@ -47,12 +44,12 @@ public static partial class ObservabilityExtensions
                                 fo.TotalWidth = isLocal ? -1 : 0;
                                 fo.UseColor = isLocal;
                             }
-                            configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Console")).Bind(fo);
+                            configuration.GetSection(ConfigurationPath.Combine("Diginsight", "Console")).Bind(fo);
                         }
                     );
                 }
 
-                var log4NetEnabled = configuration.GetValue(ConfigurationPath.Combine(observabilityConfKey, "Log4NetEnabled"), true); 
+                var log4NetEnabled = configuration.GetValue(ConfigurationPath.Combine("Observability", "Log4NetEnabled"), true); 
                 if (log4NetEnabled)
                 {
                     loggingBuilder.AddDiginsightLog4Net(
@@ -116,7 +113,7 @@ public static partial class ObservabilityExtensions
         DefaultDynamicConfigurationLoader.AddToServices(services);
         services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
 
-        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Activities")));
+        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine("Diginsight", "Activities")));
         services
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();

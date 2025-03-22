@@ -1,4 +1,4 @@
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 public class WeatherForecast
 {

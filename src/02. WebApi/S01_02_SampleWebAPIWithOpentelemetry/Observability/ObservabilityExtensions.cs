@@ -18,8 +18,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Diginsight;
 using Azure.Monitor.OpenTelemetry.Exporter;
+using Diginsight.AspNetCore;
 
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 using Options = Microsoft.Extensions.Options.Options;
 
@@ -73,9 +74,6 @@ public static partial class ObservabilityExtensions
         var logger = loggerFactory.CreateLogger(T);
         using var activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { services, configuration, hostEnvironment, configureDefaults });
 
-        const string diginsightConfKey = "Diginsight";
-        const string observabilityConfKey = "Observability";
-
         bool isLocal = hostEnvironment.IsDevelopment(); logger.LogDebug("isLocal: {isLocal}", isLocal);
         string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!; logger.LogDebug("assemblyName: {assemblyName}", assemblyName);
 
@@ -91,7 +89,6 @@ public static partial class ObservabilityExtensions
                 o.EnableMetrics = true;
                 o.TracingSamplingRatio = isLocal ? 1 : 0.1;
             }
-
             ConfigureOpenTelemetryDefaults(mutableOpenTelemetryOptions);
             services.Configure<OpenTelemetryOptions>(ConfigureOpenTelemetryDefaults);
         }
@@ -112,7 +109,7 @@ public static partial class ObservabilityExtensions
                 
                 loggingBuilder.ClearProviders(); logger.LogDebug("loggingBuilder.ClearProviders();");
 
-                var consoleEnabled = configuration.GetValue(ConfigurationPath.Combine(observabilityConfKey, "ConsoleEnabled"), true); logger.LogDebug("consoleEnabled: {consoleEnabled}", consoleEnabled);
+                var consoleEnabled = configuration.GetValue(ConfigurationPath.Combine("Observability", "ConsoleEnabled"), true); logger.LogDebug("consoleEnabled: {consoleEnabled}", consoleEnabled);
                 if (consoleEnabled)
                 {
                     loggingBuilder.AddDiginsightConsole(
@@ -123,13 +120,13 @@ public static partial class ObservabilityExtensions
                                 fo.TotalWidth = isLocal ? -1 : 0;
                                 fo.UseColor = isLocal;
                             }
-                            configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Console")).Bind(fo);
+                            configuration.GetSection(ConfigurationPath.Combine("Diginsight", "Console")).Bind(fo);
                         }
                     );
                     logger.LogDebug("loggingBuilder.AddDiginsightConsole();");
                 }
 
-                var log4NetEnabled = configuration.GetValue(ConfigurationPath.Combine(observabilityConfKey, "Log4NetEnabled"), true); logger.LogDebug("log4NetEnabled: {log4NetEnabled}", log4NetEnabled);
+                var log4NetEnabled = configuration.GetValue(ConfigurationPath.Combine("Observability", "Log4NetEnabled"), true); logger.LogDebug("log4NetEnabled: {log4NetEnabled}", log4NetEnabled);
                 if (log4NetEnabled)
                 {
                     loggingBuilder.AddDiginsightLog4Net(
@@ -204,7 +201,11 @@ public static partial class ObservabilityExtensions
             );
         }
 
-        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Activities")));
+        services.AddHttpContextAccessor();
+        DefaultDynamicConfigurationLoader.AddToServices(services);
+        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
+
+        services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine("Diginsight", "Activities")));
         services
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();

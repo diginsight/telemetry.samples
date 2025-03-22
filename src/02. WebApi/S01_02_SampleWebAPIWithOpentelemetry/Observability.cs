@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 internal static class Observability
 {

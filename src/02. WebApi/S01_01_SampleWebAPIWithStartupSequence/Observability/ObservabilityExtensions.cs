@@ -1,5 +1,6 @@
 ﻿using Azure.Monitor.OpenTelemetry.Exporter;
 using Diginsight;
+using Diginsight.AspNetCore;
 using Diginsight.Diagnostics;
 using Diginsight.Diagnostics.Log4Net;
 using Diginsight.Options;
@@ -133,6 +134,10 @@ public static partial class ObservabilityExtensions
                 )
             );
         }
+
+        services.AddHttpContextAccessor();
+        DefaultDynamicConfigurationLoader.AddToServices(services);
+        services.AddDynamicLogLevel<DefaultDynamicLogLevelInjector>();
 
         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection(ConfigurationPath.Combine(diginsightConfKey, "Activities")));
         services

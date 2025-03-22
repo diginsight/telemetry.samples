@@ -3,7 +3,7 @@ using Diginsight.Options;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 public sealed class ObservabilityManager : EarlyLoggingManager
 {
@@ -38,7 +38,7 @@ public sealed class ObservabilityManager : EarlyLoggingManager
                     lfo.Rules.Add(new LoggerFilterRule(null, "Microsoft.AspNetCore", LogLevel.Warning, null));
                     lfo.Rules.Add(new LoggerFilterRule(null, "*.IdentityLoggerAdapter", LogLevel.Warning, null));
                     lfo.Rules.Add(new LoggerFilterRule(null, "Diginsight", LogLevel.Debug, null));
-                    lfo.Rules.Add(new LoggerFilterRule(null, nameof(SampleWebAPIWithOpentelemetry), LogLevel.Trace, null));
+                    lfo.Rules.Add(new LoggerFilterRule(null, nameof(S01_02_SampleWebAPIWithOpentelemetry), LogLevel.Trace, null));
                 }
             );
 

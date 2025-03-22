@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 internal sealed class DecoratedSpanDurationMetricRecorderSettingsMarker;
 

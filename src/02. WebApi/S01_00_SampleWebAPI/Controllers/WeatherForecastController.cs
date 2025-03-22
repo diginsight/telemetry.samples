@@ -29,13 +29,11 @@ public class WeatherForecastController : ControllerBase
 		using var activity = Observability.ActivitySource.StartMethodActivity(logger);
 
 		var maxConcurrency = concurrencyOptionsMonitor.CurrentValue?.MaxConcurrency ?? -1; logger.LogDebug("maxConcurrency: {maxConcurrency}", maxConcurrency);
-
-		int[] ia = new int[20];
 		var options = new ParallelOptions() { MaxDegreeOfParallelism = maxConcurrency };
 
-		var queue = new ConcurrentQueue<WeatherForecast>();
-
+		int[] ia = new int[20];
 		int index = 0;
+		var queue = new ConcurrentQueue<WeatherForecast>();
 		await Parallel.ForEachAsync(ia, options, async (i, ct) =>
 		{
 			index++;

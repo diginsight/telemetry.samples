@@ -2,9 +2,9 @@
 using Diginsight.Diagnostics;
 using Diginsight;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SampleWebAPIWithOpentelemetry;
+using S01_02_SampleWebAPIWithOpentelemetry;
 
-namespace SampleWebAPIWithOpentelemetry;
+namespace S01_02_SampleWebAPIWithOpentelemetry;
 
 public class Program
 {
@@ -27,6 +27,10 @@ public class Program
 
             observabilityManager.AttachTo(services);
             services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+
+            services.ConfigureClassAware<ConcurrencyOptions>(configuration.GetSection("AppSettings"))
+                .DynamicallyConfigureClassAware<ConcurrencyOptions>()
+                .VolatilelyConfigureClassAware<ConcurrencyOptions>();
 
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
