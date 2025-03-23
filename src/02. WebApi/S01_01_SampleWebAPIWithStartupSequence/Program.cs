@@ -26,7 +26,6 @@ public class Program
             services.AddObservability(configuration, environment);
 
             observabilityManager.AttachTo(services);
-            services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
 
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

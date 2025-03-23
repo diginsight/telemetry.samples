@@ -118,6 +118,8 @@ public static partial class ObservabilityExtensions
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();
 
+        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+
         return services;
     }
 

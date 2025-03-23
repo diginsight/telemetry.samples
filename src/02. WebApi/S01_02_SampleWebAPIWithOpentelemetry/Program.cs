@@ -26,7 +26,6 @@ public class Program
             services.AddObservability(configuration, environment, out IOpenTelemetryOptions openTelemetryOptions);
 
             observabilityManager.AttachTo(services);
-            services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
 
             services.ConfigureClassAware<ConcurrencyOptions>(configuration.GetSection("AppSettings"))
                 .DynamicallyConfigureClassAware<ConcurrencyOptions>()

@@ -18,8 +18,6 @@ public class Program
         // Add logging and opentelemetry
         services.AddObservability(configuration, environment);
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
-
         services.ConfigureClassAware<ConcurrencyOptions>(configuration.GetSection("AppSettings"))
             .DynamicallyConfigureClassAware<ConcurrencyOptions>()
             .VolatilelyConfigureClassAware<ConcurrencyOptions>();

@@ -147,6 +147,8 @@ public static partial class ObservabilityExtensions
 
         IOpenTelemetryBuilder openTelemetryBuilder = services.AddDiginsightOpenTelemetry(); logger.LogDebug("services.AddDiginsightOpenTelemetry();");
 
+        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+
         return services;
     }
 
