@@ -1,4 +1,4 @@
-# telemetry_samples
+# telemetry.samples
 
 ## INTRODUCTION 
 
