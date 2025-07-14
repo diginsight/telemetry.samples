@@ -24,7 +24,6 @@ public class Program
 
             // Add logging and opentelemetry
             services.AddObservability(configuration, environment);
-
             observabilityManager.AttachTo(services);
 
             services.AddControllers();
