@@ -13,6 +13,7 @@ public class Program
         using var observabilityManager = new ObservabilityManager();
         ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
         Observability.LoggerFactory = observabilityManager.LoggerFactory;
+        ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
 
         WebApplication app;
         using (var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args }))

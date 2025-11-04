@@ -26,7 +26,10 @@ public partial class App : Application
     static App()
     {
         ObservabilityManager = new ObservabilityManager();
+        ObservabilityRegistry.RegisterLoggerFactory(ObservabilityManager.LoggerFactory);
+
         ILogger logger = ObservabilityManager.LoggerFactory.CreateLogger(typeof(App));
+
 
         using var activity = Observability.ActivitySource.StartMethodActivity(logger);
         try

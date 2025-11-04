@@ -11,8 +11,11 @@ public class Program
     public static void Main(string[] args)
     {
         using var observabilityManager = new ObservabilityManager();
-        ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
         Observability.LoggerFactory = observabilityManager.LoggerFactory;
+        ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
+
+        ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
+
 
         WebApplication app;
         using (var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args }))

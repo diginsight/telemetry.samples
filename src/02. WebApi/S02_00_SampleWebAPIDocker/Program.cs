@@ -12,6 +12,7 @@ namespace SampleWebAPIDocker
         public static void Main(string[] args)
         {
             using var observabilityManager = new ObservabilityManager();
+            ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
             ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
 
             WebApplication app;

@@ -12,6 +12,7 @@ public class Program
     public static void Main(string[] args)
     {
         using var observabilityManager = new ObservabilityManager();
+        ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
         var logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
 
         IWebHost host;

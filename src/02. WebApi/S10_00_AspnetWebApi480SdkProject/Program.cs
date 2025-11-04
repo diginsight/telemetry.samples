@@ -29,8 +29,9 @@ namespace S10_00_AspnetWebApi480SdkProject
         public static async Task Main(string[] args)
         {
             using var observabilityManager = new ObservabilityManager();
-            ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
             Observability.LoggerFactory = observabilityManager.LoggerFactory;
+            ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
+            ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
 
             using (var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args }))
             {
