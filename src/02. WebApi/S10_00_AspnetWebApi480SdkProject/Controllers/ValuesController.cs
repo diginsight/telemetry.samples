@@ -11,7 +11,7 @@ public class ValuesController : ApiController
 
     public ValuesController()
     {
-        var logger = Observability.LoggerFactory.CreateLogger<ValuesController>();
+        var logger = LoggerFactoryStaticAccessor.LoggerFactory?.CreateLogger<ValuesController>();
         this.logger = logger;
         
         using var activity = Observability.ActivitySource.StartMethodActivity(logger);

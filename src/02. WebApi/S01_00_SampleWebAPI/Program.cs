@@ -3,7 +3,7 @@ using Diginsight;
 using Diginsight.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace S01_00_SampleWebAPI;
+namespace SampleWebAPI;
 
 
 public class Program

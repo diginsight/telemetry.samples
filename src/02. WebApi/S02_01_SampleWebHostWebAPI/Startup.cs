@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace SampleWebHostWebAPI;
@@ -36,6 +37,7 @@ public class Startup
     {
         var logger = loggerFactory.CreateLogger<Startup>();
         using var activity = Observability.ActivitySource.StartMethodActivity(logger, new { services });
+        string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
 
         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
         services.Configure<DiginsightConsoleFormatterOptions>(configuration.GetSection("Diginsight:Console"));
@@ -52,7 +54,7 @@ public class Startup
                          if (configuration.GetValue("Observability:Log4NetEnabled", true))
                          {
                              //loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                             loggingBuilder.AddDiginsightLog4Net(static sp =>
+                             loggingBuilder.AddDiginsightLog4Net(sp =>
                              {
                                  IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
                                  string fileBaseDir = env.IsDevelopment()
@@ -63,7 +65,7 @@ public class Startup
                                  {
                                        new RollingFileAppender()
                                        {
-                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", assemblyName),
                                            AppendToFile = true,
                                            StaticLogFileName = false,
                                            RollingStyle = RollingFileAppender.RollingMode.Composite,
@@ -82,7 +84,7 @@ public class Startup
                          }
                      }
                  );
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();
         observabilityManager.AttachTo(services);
 
         //services.AddHttpContextAccessor();

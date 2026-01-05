@@ -30,7 +30,7 @@ public static partial class ObservabilityExtensions
         bool configureDefaults = true
     )
     {
-        var loggerFactory = Observability.LoggerFactory;
+        var loggerFactory = LoggerFactoryStaticAccessor.LoggerFactory;
         var logger = loggerFactory.CreateLogger(T);
         using var activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { services, configuration, hostEnvironment, configureDefaults });
 
@@ -42,7 +42,7 @@ public static partial class ObservabilityExtensions
 
         IConfiguration openTelemetryConfiguration = configuration.GetSection("OpenTelemetry"); logger.LogDebug("openTelemetryConfiguration: {openTelemetryConfiguration}", openTelemetryConfiguration);
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();");
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();");
 
         //services.TryAddEnumerable(ServiceDescriptor.Singleton<IActivityListenerRegistration, ActivitySourceDetectorRegistration>()); logger.LogDebug("services.TryAddEnumerable(ServiceDescriptor.Singleton<IActivityListenerRegistration, ActivitySourceDetectorRegistration>());");
 
@@ -116,7 +116,11 @@ public static partial class ObservabilityExtensions
                 dao =>
                 {
                     dao.LogBehavior = LogBehavior.Show;
-                    dao.MeterName = assemblyName;
+                    dao.RecordSpanDuration = true;             // Singular
+                    dao.SpanDurationMeterName = assemblyName;  // SpanDuration prefix
+                    dao.SpanDurationMetricName = "diginsight.span_duration";
+                    dao.SpanDurationMetricDescription = "Duration of application spans";
+                    // dao.MetricUnit removed - no longer used
                 }
             );
 
@@ -128,7 +132,7 @@ public static partial class ObservabilityExtensions
                         IReadOnlyList<string> markers = ClassConfigurationMarkers.For(t);
                         if (markers.Contains("Diginsight.*"))
                         {
-                            dao.RecordSpanDurations = true;
+                            dao.RecordSpanDuration = true;
                         }
                     }
                 )
@@ -147,7 +151,7 @@ public static partial class ObservabilityExtensions
 
         IOpenTelemetryBuilder openTelemetryBuilder = services.AddDiginsightOpenTelemetry(); logger.LogDebug("services.AddDiginsightOpenTelemetry();");
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();
 
         return services;
     }

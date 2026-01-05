@@ -1,6 +1,6 @@
 using Diginsight.Options;
 
-namespace S01_00_SampleWebAPI;
+namespace SampleWebAPI;
 
 public class ConcurrencyOptions : IDynamicallyConfigurable, IVolatilelyConfigurable
 {

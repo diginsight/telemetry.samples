@@ -29,8 +29,8 @@ namespace S10_00_AspnetWebApi480SdkProject
         public static async Task Main(string[] args)
         {
             using var observabilityManager = new ObservabilityManager();
-            Observability.LoggerFactory = observabilityManager.LoggerFactory;
-            ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
+            LoggerFactoryStaticAccessor.LoggerFactory = observabilityManager.LoggerFactory;
+            //ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
             ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
 
             using (var activity = Observability.ActivitySource.StartMethodActivity(logger, new { args }))
@@ -46,7 +46,7 @@ namespace S10_00_AspnetWebApi480SdkProject
                         var environment = context.HostingEnvironment;
 
                         services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-                        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();");
+                        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();");
 
                         // Add logging and opentelemetry
                         services.AddObservability(configuration, environment); logger.LogDebug("services.AddObservability(configuration, environment);");
@@ -84,7 +84,7 @@ namespace S10_00_AspnetWebApi480SdkProject
 
         private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
-            var logger = Observability.LoggerFactory.CreateLogger<Program>();
+            var logger = LoggerFactoryStaticAccessor.LoggerFactory?.CreateLogger<Program>();
             using var activity = Observability.ActivitySource.StartMethodActivity(logger, () => new { configuration, services });
 
             //services.ConfigureClassAware<AppSettingsOptions>(configuration.GetSection("AppSettings"));

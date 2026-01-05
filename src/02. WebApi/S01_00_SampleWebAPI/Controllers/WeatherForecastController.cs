@@ -3,7 +3,7 @@ using Diginsight.Options;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
 
-namespace S01_00_SampleWebAPI.Controllers;
+namespace SampleWebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

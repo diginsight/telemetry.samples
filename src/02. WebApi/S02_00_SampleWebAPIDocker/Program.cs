@@ -4,6 +4,7 @@ using Diginsight.Diagnostics;
 using Diginsight.Diagnostics.Log4Net;
 using log4net.Appender;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Reflection;
 
 namespace SampleWebAPIDocker
 {
@@ -12,7 +13,7 @@ namespace SampleWebAPIDocker
         public static void Main(string[] args)
         {
             using var observabilityManager = new ObservabilityManager();
-            ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
+            // ObservabilityRegistry.RegisterLoggerFactory(observabilityManager.LoggerFactory);
             ILogger logger = observabilityManager.LoggerFactory.CreateLogger(typeof(Program));
 
             WebApplication app;
@@ -21,6 +22,7 @@ namespace SampleWebAPIDocker
                 var builder = WebApplication.CreateBuilder(args); logger.LogDebug("Creating WebApplication builder");
                 var services = builder.Services;
                 var configuration = builder.Configuration;
+                string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
 
                 services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities")); logger.LogDebug("Configuring DiginsightActivitiesOptions from Diginsight:Activities");
                 services.Configure<DiginsightConsoleFormatterOptions>(configuration.GetSection("Diginsight:Console")); logger.LogDebug("Configuring DiginsightConsoleFormatterOptions from Diginsight:Console");
@@ -37,7 +39,7 @@ namespace SampleWebAPIDocker
                                 if (configuration.GetValue("Observability:Log4NetEnabled", true))
                                 {
                                     //loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                                    loggingBuilder.AddDiginsightLog4Net(static sp =>
+                                    loggingBuilder.AddDiginsightLog4Net(sp =>
                                     {
                                         IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
                                         string fileBaseDir = env.IsDevelopment()
@@ -48,7 +50,7 @@ namespace SampleWebAPIDocker
                                         {
                                                     new RollingFileAppender()
                                                     {
-                                                        File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                                        File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", assemblyName),
                                                         AppendToFile = true,
                                                         StaticLogFileName = false,
                                                         RollingStyle = RollingFileAppender.RollingMode.Composite,
@@ -68,7 +70,7 @@ namespace SampleWebAPIDocker
                             }
                         ); logger.LogDebug("services.AddLogging()");
 
-                services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>()");
+                services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();");
                 observabilityManager.AttachTo(services); logger.LogDebug("observabilityManager.AttachTo(services)");
 
                 builder.Services.AddControllers(); logger.LogDebug("builder.Services.AddControllers()");

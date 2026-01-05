@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Console", "00. Console", "{D0EEB045-45AF-4559-8A59-E8290B4968D6}"
 EndProject
@@ -80,6 +80,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diginsight.Polyfills", "..\..\telemetry\src\Diginsight.Polyfills\Diginsight.Polyfills.csproj", "{203D82AA-1D3E-70C2-F538-5ADCA282FD55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diginsight.Stringify", "..\..\telemetry\src\Diginsight.Stringify\Diginsight.Stringify.csproj", "{DA7CF0B7-0378-36DB-EABD-046A95BF38C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diginsight.Diagnostics.OpenTelemetry", "..\..\telemetry\src\Diginsight.Diagnostics.OpenTelemetry\Diginsight.Diagnostics.OpenTelemetry.csproj", "{60F177E9-2CCC-4872-0CED-A1374EA77A15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -199,6 +201,10 @@ Global
 		{DA7CF0B7-0378-36DB-EABD-046A95BF38C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA7CF0B7-0378-36DB-EABD-046A95BF38C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA7CF0B7-0378-36DB-EABD-046A95BF38C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F177E9-2CCC-4872-0CED-A1374EA77A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F177E9-2CCC-4872-0CED-A1374EA77A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F177E9-2CCC-4872-0CED-A1374EA77A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F177E9-2CCC-4872-0CED-A1374EA77A15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +238,7 @@ Global
 		{E96181CC-44CF-55C7-E0EB-2FBBE2260F67} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{203D82AA-1D3E-70C2-F538-5ADCA282FD55} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{DA7CF0B7-0378-36DB-EABD-046A95BF38C5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{60F177E9-2CCC-4872-0CED-A1374EA77A15} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69EAF912-FF6D-49B9-8B91-BBCFFDDAC2FD}

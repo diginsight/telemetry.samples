@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System.Configuration;
 using System.Data;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 
 namespace SampleWpfApp;
@@ -26,7 +27,7 @@ public partial class App : Application
     static App()
     {
         ObservabilityManager = new ObservabilityManager();
-        ObservabilityRegistry.RegisterLoggerFactory(ObservabilityManager.LoggerFactory);
+        //ObservabilityRegistry.RegisterLoggerFactory(ObservabilityManager.LoggerFactory);
 
         ILogger logger = ObservabilityManager.LoggerFactory.CreateLogger(typeof(App));
 
@@ -65,7 +66,7 @@ public partial class App : Application
                 var environment = context.HostingEnvironment;
 
                 services.ConfigureClassAware<DiginsightActivitiesOptions>(configuration.GetSection("Diginsight:Activities"));
-                services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();");
+                services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>(); logger.LogDebug("services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();");
                 ObservabilityManager.AttachTo(services);
 
                 ConfigureServices(context.Configuration, services);
@@ -75,6 +76,7 @@ public partial class App : Application
             .ConfigureLogging((context, loggingBuilder) =>
             {
                 using var innerActivity = Observability.ActivitySource.StartRichActivity(logger, "ConfigureLogging.Callback", new { context, loggingBuilder });
+                string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
 
                 var configuration = context.Configuration;
 
@@ -95,7 +97,7 @@ public partial class App : Application
                                  if (configuration.GetValue("Observability:Log4NetEnabled", true))
                                  {
                                      //loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                                     loggingBuilder.AddDiginsightLog4Net(static sp =>
+                                     loggingBuilder.AddDiginsightLog4Net(sp =>
                                      {
                                          IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
                                          string fileBaseDir = env.IsDevelopment()
@@ -106,7 +108,7 @@ public partial class App : Application
                                                 {
                                                             new RollingFileAppender()
                                                             {
-                                                                File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(App).Namespace!),
+                                                                File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", assemblyName),
                                                                 AppendToFile = true,
                                                                 StaticLogFileName = false,
                                                                 RollingStyle = RollingFileAppender.RollingMode.Composite,

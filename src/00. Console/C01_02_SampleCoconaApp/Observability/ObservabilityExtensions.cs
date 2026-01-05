@@ -38,7 +38,7 @@ public static partial class ObservabilityExtensions
                      if (configuration.GetValue("Observability:Log4NetEnabled", true))
                      {
                          //loggingBuilder.AddDiginsightLog4Net("log4net.config");
-                         loggingBuilder.AddDiginsightLog4Net(static sp =>
+                         loggingBuilder.AddDiginsightLog4Net(sp =>
                          {
                              IHostEnvironment env = sp.GetRequiredService<IHostEnvironment>();
                              string fileBaseDir = env.IsDevelopment()
@@ -49,7 +49,7 @@ public static partial class ObservabilityExtensions
                              {
                                        new RollingFileAppender()
                                        {
-                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", typeof(Program).Namespace!),
+                                           File = Path.Combine(fileBaseDir, "LogFiles", "Diginsight", assemblyName),
                                            AppendToFile = true,
                                            StaticLogFileName = false,
                                            RollingStyle = RollingFileAppender.RollingMode.Composite,
@@ -67,7 +67,7 @@ public static partial class ObservabilityExtensions
                          static _ => log4net.Core.Level.All);
                      }
                  });
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();
 
         return services;
     }

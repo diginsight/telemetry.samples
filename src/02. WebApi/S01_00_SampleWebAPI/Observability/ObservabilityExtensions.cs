@@ -8,7 +8,7 @@ using log4net.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace S01_00_SampleWebAPI;
+namespace SampleWebAPI;
 
 using Options = Microsoft.Extensions.Options.Options;
 
@@ -26,7 +26,7 @@ public static partial class ObservabilityExtensions
         bool isLocal = hostEnvironment.IsDevelopment(); 
         string assemblyName = Assembly.GetEntryAssembly()!.GetName().Name!; 
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();
 
         services.AddLogging(
             loggingBuilder =>
@@ -91,7 +91,11 @@ public static partial class ObservabilityExtensions
                 dao =>
                 {
                     dao.LogBehavior = LogBehavior.Show;
-                    dao.MeterName = assemblyName;
+                    dao.RecordSpanDuration = true;  // Was RecordSpanDurations
+                    dao.SpanDurationMeterName = assemblyName;  // Was MeterName
+                    dao.SpanDurationMetricName = "diginsight.span_duration";  // Was MetricName
+                    dao.SpanDurationMetricDescription = "Duration of application spans";  // Was MetricDescription
+                                                                                          // dao.MetricUnit removed
                 }
             );
             services.AddSingleton<IConfigureClassAwareOptions<DiginsightActivitiesOptions>>(
@@ -102,7 +106,7 @@ public static partial class ObservabilityExtensions
                         IReadOnlyList<string> markers = ClassConfigurationMarkers.For(t);
                         if (markers.Contains("Diginsight.*"))
                         {
-                            dao.RecordSpanDurations = true;
+                            dao.RecordSpanDuration = true;
                         }
                     }
                 )
@@ -118,7 +122,7 @@ public static partial class ObservabilityExtensions
             .VolatilelyConfigureClassAware<DiginsightActivitiesOptions>()
             .DynamicallyConfigureClassAware<DiginsightActivitiesOptions>();
 
-        services.TryAddSingleton<IActivityLoggingSampler, NameBasedActivityLoggingSampler>();
+        services.TryAddSingleton<IActivityLoggingFilter, OptionsBasedActivityLoggingFilter>();
 
         return services;
     }
