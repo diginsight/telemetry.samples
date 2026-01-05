@@ -58,8 +58,8 @@ This guide provides a systematic approach to upgrading all samples in this repos
 | `ActivityLogLevel` → <mark>`LogLevel`</mark> | ⚠️ Low | Update if accessing via interface |
 | `MetricUnit` property removed | ⚠️ Low | Remove from configuration |
 | Metric properties need `SpanDuration` prefix | ⚠️ Medium | Update configuration |
-| `IMetricRecordingEnricher` signature changed | ⚠️ Medium | Update custom implementations |
-| `NameBased*` → `OptionsBased*` classes | ⚠️ Medium | Update all class references |
+| <mark>`IMetricRecordingEnricher`</mark> signature changed | ⚠️ Medium | Update custom implementations |
+| `NameBased*` → <mark>`OptionsBased*`</mark> classes | ⚠️ Medium | Update all class references |
 
 ---
 
