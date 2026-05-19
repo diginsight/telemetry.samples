@@ -6,21 +6,21 @@
   </Folder>
   <Folder Name="/00. Linqpad/" />
   <Folder Name="/01. Wpf/">
-    <Project Path="01. Wpf/C01_00_SampleWpfApp/C01_00_SampleWpfApp.csproj" />
-    <Project Path="01. Wpf/C01_01_SampleWpfAppWithAppinsight/C01_01_SampleWpfAppWithAppinsight.csproj" />
-    <Project Path="01. Wpf/C05_00_SampleWpfApp480/C05_00_SampleWpfApp480.csproj" />
-    <Project Path="01. Wpf/C10_00_SampleWpfApp481/C10_00_SampleWpfApp481.csproj" Id="ba2feab2-7f10-4a1a-b467-cf931211980f" />
-    <Project Path="01. Wpf/C10_01_SampleWpfApp481SdkProject/C10_01_SampleWpfApp481SdkProject.csproj" />
+	<Project Path="01. Wpf/C01_00_SampleWpfApp/C01_00_SampleWpfApp.csproj" />
+	<Project Path="01. Wpf/C01_01_SampleWpfAppWithAppinsight/C01_01_SampleWpfAppWithAppinsight.csproj" />
+	<Project Path="01. Wpf/C05_00_SampleWpfApp480/C05_00_SampleWpfApp480.csproj" />
+	<Project Path="01. Wpf/C10_00_SampleWpfApp481/C10_00_SampleWpfApp481.csproj" Id="ba2feab2-7f10-4a1a-b467-cf931211980f" />
+	<Project Path="01. Wpf/C10_01_SampleWpfApp481SdkProject/C10_01_SampleWpfApp481SdkProject.csproj" />
   </Folder>
   <Folder Name="/02. WebApi/">
-    <Project Path="02. WebApi/S01_00_SampleWebAPI/S01_00_SampleWebAPI.csproj" />
-    <Project Path="02. WebApi/S01_01_SampleWebAPIWithStartupSequence/S01_01_SampleWebAPIWithStartupSequence.csproj" />
-    <Project Path="02. WebApi/S01_02_SampleWebAPIWithOpentelemetry/S01_02_SampleWebAPIWithOpentelemetry.csproj" />
-    <Project Path="02. WebApi/S02_00_SampleWebAPIDocker/S02_00_SampleWebAPIDocker.csproj" />
-    <Project Path="02. WebApi/S02_01_SampleWebHostWebAPI/S02_01_SampleWebHostWebAPI.csproj" />
-    <Project Path="02. WebApi/S05_00_SampleWebAPI480/S05_00_SampleWebAPI480.csproj" />
-    <Project Path="02. WebApi/S10_00_AspnetWebApi480/S10_00_AspnetWebApi480.csproj" Id="787d08af-7111-4e63-a8a8-8321e05d03f1" />
-    <Project Path="02. WebApi/S10_00_AspnetWebApi480SdkProject/S10_00_AspnetWebApi480SdkProject.csproj" />
+	<Project Path="02. WebApi/S01_00_SampleWebAPI/S01_00_SampleWebAPI.csproj" />
+	<Project Path="02. WebApi/S01_01_SampleWebAPIWithStartupSequence/S01_01_SampleWebAPIWithStartupSequence.csproj" />
+	<Project Path="02. WebApi/S01_02_SampleWebAPIWithOpentelemetry/S01_02_SampleWebAPIWithOpentelemetry.csproj" />
+	<Project Path="02. WebApi/S02_00_SampleWebAPIDocker/S02_00_SampleWebAPIDocker.csproj" />
+	<Project Path="02. WebApi/S02_01_SampleWebHostWebAPI/S02_01_SampleWebHostWebAPI.csproj" />
+	<Project Path="02. WebApi/S05_00_SampleWebAPI480/S05_00_SampleWebAPI480.csproj" />
+	<Project Path="02. WebApi/S10_00_AspnetWebApi480SdkProject/S10_00_AspnetWebApi480SdkProject.csproj" />
+	<Project Path="02. WebApi/S10_00_AspnetWebApi480/S10_00_AspnetWebApi480.csproj" Id="787d08af-7111-4e63-a8a8-8321e05d03f1" />
   </Folder>
   <Folder Name="/02.01 Aspnet/">
     <Project Path="02.01 Aspnet/SampleWebApplication/S01_00_SampleWebApplication.csproj" />
