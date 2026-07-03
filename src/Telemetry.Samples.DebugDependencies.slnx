@@ -26,7 +26,11 @@
     <Project Path="02.01 Aspnet/SampleWebApplication/S01_00_SampleWebApplication.csproj" />
     <Project Path="02.01 Aspnet/SampleWebApplicationDocker/S01_01_SampleWebApplicationDocker.csproj" />
   </Folder>
-  <Folder Name="/02.02 AspnetBlazor/" />
+  <Folder Name="/02.02 AspnetBlazor/">
+    <Project Path="02.02 AspnetBlazor/B02_01_BlazorWebassemblyApp/B02_01_BlazorWebassemblyApp.csproj" />
+    <Project Path="02.02 AspnetBlazor/B02_02_BlazorWebassemblyApi/B02_02_BlazorWebassemblyApi.csproj" />
+    <Project Path="02.02 AspnetBlazor/B02_02_BlazorWebassemblyModel/B02_02_BlazorWebassemblyModel.csproj" Id="cecbd323-fb8d-42d4-897a-6f2065da8f0e" />
+  </Folder>
   <Folder Name="/99. Other/" />
   <Folder Name="/Solution Items/">
 	<File Path="Directory.Build.props" />

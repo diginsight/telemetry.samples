@@ -35,6 +35,7 @@
 		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.Log4Net\Diginsight.Diagnostics.Log4Net.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
 		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.OpenTelemetry\Diginsight.Diagnostics.OpenTelemetry.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
 		<ProjectReference Include="$(DiginsightCoreSolutionDirectory)Diginsight.Diagnostics.AspNetCore.OpenTelemetry\Diginsight.Diagnostics.AspNetCore.OpenTelemetry.csproj" Condition="'$(DiginsightCoreDirectImport)' == 'true'" />
+		<ProjectReference Include="..\B02_02_BlazorWebassemblyModel\B02_02_BlazorWebassemblyModel.csproj" />
 		<PackageReference Include="Diginsight.Core" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
 		<PackageReference Include="Diginsight.Diagnostics" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />
 		<PackageReference Include="Diginsight.Diagnostics.AspNetCore" Version="$(DiginsightCoreVersion)" Condition="'$(DiginsightCoreDirectImport)' != 'true'" />

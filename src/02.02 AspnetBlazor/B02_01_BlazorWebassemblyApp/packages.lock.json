@@ -469,6 +469,9 @@
         "type": "Transitive",
         "resolved": "8.0.1",
         "contentHash": "BVYuec3jV23EMRDeR7Dr1/qhx7369dZzJ9IWy2xylvb4YfXsrUxspWc4UWYid/tj4zZK58uGZqn2WQiaDMhmAg=="
+      },
+      "b02_02_blazorwebassemblymodel": {
+        "type": "Project"
       }
     },
     "net10.0/browser-wasm": {}
