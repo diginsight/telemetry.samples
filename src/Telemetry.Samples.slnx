@@ -29,6 +29,7 @@
   <Folder Name="/02.02 AspnetBlazor/">
     <Project Path="02.02 AspnetBlazor/B02_01_BlazorWebassemblyApp/B02_01_BlazorWebassemblyApp.csproj" Id="ffa6e4d5-99fd-452a-a130-0fd2648bfa0a" />
     <Project Path="02.02 AspnetBlazor/B02_02_BlazorWebassemblyApi/B02_02_BlazorWebassemblyApi.csproj" Id="e6481409-eeaf-453b-9ec5-a7ecf3096a85" />
+    <Project Path="02.02 AspnetBlazor/B02_02_BlazorWebassemblyModel/B02_02_BlazorWebassemblyModel.csproj" />
   </Folder>
   <Folder Name="/99. Other/" />
   <Folder Name="/Solution Items/">
