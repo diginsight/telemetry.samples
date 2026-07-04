@@ -2,10 +2,12 @@ using Diginsight;
 using Diginsight.Diagnostics;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.OpenApi;
+using B02_02_BlazorWebassemblyApi.Routing;
 
 namespace B02_02_BlazorWebassemblyApi
 {
@@ -39,7 +41,21 @@ namespace B02_02_BlazorWebassemblyApi
                         .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
                         .AddInMemoryTokenCaches();
 
-                builder.Services.AddControllers();
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("BlazorClient", policy =>
+                    {
+                        policy
+                            .WithOrigins("https://localhost:7123", "http://localhost:5241")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+                });
+
+                builder.Services.AddControllers(options =>
+                {
+                    options.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer()));
+                });
                 //services.AddEndpointsApiExplorer();
                 //services.AddSwaggerGen();
 
@@ -96,7 +112,7 @@ namespace B02_02_BlazorWebassemblyApi
                 app = builder.Build();
 
                 // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
+                if (!app.Environment.IsProduction())
                 {
                     app.MapOpenApi();
 
@@ -113,13 +129,14 @@ namespace B02_02_BlazorWebassemblyApi
 
                 app.UseHttpsRedirection();
 
+                app.UseCors("BlazorClient");
+
                 app.UseAuthentication();
 
                 app.UseAuthorization();
 
                 app.MapControllers();
             }
-
 
             //services.ConfigureClassAware<ConcurrencyOptions>(configuration.GetSection("AppSettings"))
             //    .DynamicallyConfigureClassAware<ConcurrencyOptions>()

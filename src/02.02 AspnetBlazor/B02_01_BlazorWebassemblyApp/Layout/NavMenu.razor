@@ -24,10 +24,32 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="profile">
-                <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Show profile
-            </NavLink>
-        </div>
+        @if (!AuthBootstrapState.IsAuthenticationConfigured)
+        {
+            <div class="nav-item px-3">
+                <span class="nav-link disabled auth-disabled">
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Show profile (auth loading)
+                </span>
+            </div>
+        }
+        else
+        {
+            <AuthorizeView>
+                <Authorized>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="profile">
+                            <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Show profile
+                        </NavLink>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <div class="nav-item px-3">
+                        <span class="nav-link disabled auth-disabled">
+                            <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Show profile (sign in required)
+                        </span>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+        }
     </nav>
 </div>
